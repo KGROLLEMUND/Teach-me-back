@@ -1,6 +1,6 @@
 const User = require("../models/user.model");
-const Company = require("../models/company.model");
-const Freelance = require("../models/freelance.model");
+const Prof = require("../models/prof.model");
+const Student = require("../models/student.model");
 const bcrypt = require("bcrypt");
 const sendMail = require('../utils/sendMail');
 const signJwt = require('../utils/signJwt');
@@ -99,33 +99,33 @@ exports.login = async (req, res, next) => {
   }
 }
 
-//register a user with user type freelance
-exports.registerFreelance = async (req, res, next) => {
+//register a user with user type Student
+exports.registerStudent = async (req, res, next) => {
   try {
-    //get the user who want to register as a freelance
+    //get the user who want to register as a Student
     const me = await User.findById(req.userToken.body.id);
-    // create a new Freelance instance
-    const newFreelance = new Freelance({
+    // create a new Student instance
+    const newStudent = new Student({
       rate: req.body.rate,
       yearOfExperience: req.body.yearOfExperience,
       user: req.userToken.body.id
     });
-    //if user already have a freelance acccount
-    if (me.freelance) {
-      const error = new Error("User already have a freelance account")
+    //if user already have a Student acccount
+    if (me.student) {
+      const error = new Error("User already have a student account")
       error.status = 400
       throw error;
     }
-    // save the freelance in db
-    const newFreelanceToSave = await newFreelance.save();
-    //Add freelance ref to User model and save to DB
-    me.freelance = newFreelanceToSave._id;
+    // save the Student in db
+    const newStudentToSave = await newStudent.save();
+    //Add Student ref to User model and save to DB
+    me.student = newStudentToSave._id;
     await me.save();
-    //return new freelance
+    //return new Student
     res.send({
       success: true,
-      message: "freelance successfully create",
-      freelance: newFreelanceToSave
+      message: "Student successfully create",
+      student: newStudentToSave
     })
   }
   catch (err) {
@@ -133,14 +133,14 @@ exports.registerFreelance = async (req, res, next) => {
   }
 }
 
-//register a company with user type company
-exports.registerCompany = async (req, res, next) => {
+//register a Prof with user type Prof
+exports.registerProf = async (req, res, next) => {
 
-  //get the user who want to register Company
+  //get the user who want to register Prof
   const me = await User.findById(req.userToken.body.id);
   
-  // create a new Company instance
-  const newCompany = new Company({
+  // create a new Prof instance
+  const newProf = new Prof({
     name: req.body.name,
     status: req.body.status,
     siret: req.body.siret,
@@ -153,22 +153,22 @@ exports.registerCompany = async (req, res, next) => {
   })
 
   try {
-    //if user already have a company account
-    if (me.company) {
-      const error = new Error("User already have a company account")
+    //if user already have a Prof account
+    if (me.prof) {
+      const error = new Error("User already have a prof account")
       error.status = 400
       throw error;
     }
-    // save company in DB
-    const newCompanyToSave = await newCompany.save();
-    //Add freelance ref to User and save to DB
-    me.company = newCompanyToSave._id;
+    // save prof in DB
+    const newProfToSave = await newProf.save();
+    //Add Student ref to User and save to DB
+    me.prof = newProfToSave._id;
     await me.save();
-    // return company
+    // return Prof
     res.send({
       success: true,
-      message: "company successfully create",
-      company: newCompanyToSave
+      message: "prof successfully create",
+      prof: newProfToSave
     })
   }
   catch (err) {

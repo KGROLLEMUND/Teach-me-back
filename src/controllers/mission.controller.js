@@ -1,38 +1,38 @@
-const Mission = require("../models/mission.model");
+const Cours = require("../models/cours.model");
 const User = require("../models/user.model");
-const Company = require("../models/company.model");
+const Prof = require("../models/prof.model");
 
-//create mission from User company
-exports.createMission = async (req, res, next) => {
+//create Cours from User Prof
+exports.createCours = async (req, res, next) => {
   try {
     //find user
     const me = await User.findById(req.userToken.body.id);
-    //find company
-    const myCompany = await Company.findById(me.company);
-    //new mission
-    const newMission = new Mission({
+    //find Prof
+    const myProf = await Prof.findById(me.prof);
+    //new Cours
+    const newCours = new Cours({
       dateStart: req.body.dateStart,
       dateEnd: req.body.dateEnd,
       amount: req.body.amount,
       title: req.body.title,
       description: req.body.description,
       status: "IN_PROGRESS",
-      company: myCompany._id,
+      prof: myProf._id,
       skills: req.body.skills
     });
-    // save mission in DB
-    const missionToCreate = await newMission.save();
+    // save Cours in DB
+    const coursToCreate = await newCours.save();
     
-    if (missionToCreate) {
-      // add ref mission to model company
-      myCompany.missions.push(missionToCreate._id);
+    if (coursToCreate) {
+      // add ref Cours to model Prof
+      myProf.cours.push(coursToCreate._id);
       //save to DB
-      await myCompany.save();
-      //return Mission
+      await myProf.save();
+      //return Cours
       return res.send({
         success: true,
-        message: "mission successfully created",
-        mission: missionToCreate
+        message: "cours successfully created",
+        cours: coursToCreate
       })
     }
   }
@@ -42,25 +42,25 @@ exports.createMission = async (req, res, next) => {
 
 }
 
-//get Missions from User company
-exports.getMyMissions = async (req, res, next) => {
+//get courss from User Prof
+exports.getMyCours = async (req, res, next) => {
   try {
     //find user
-    const me = await User.findById(req.userToken.body.id).populate('company');
-    //find user company and populate missions
-    const myCompany = await Company.findById(me.company).populate({
-      path: "missions",
-      model: "Mission",
+    const me = await User.findById(req.userToken.body.id).populate('prof');
+    //find user Prof and populate cours
+    const myProf = await Prof.findById(me.prof).populate({
+      path: "cours",
+      model: "Cours",
       populate: {
         path: "propositions",
         model:"Proposition"
       }
     });
-    console.log(myCompany);
-    //return missions
+    console.log(myProf);
+    //return courss
     res.send({
       success: true,
-      missions: myCompany.missions
+      cours: myProf.cours
     })
   }
   catch(err) {
@@ -68,15 +68,15 @@ exports.getMyMissions = async (req, res, next) => {
   }
 }
 
-//get Mission from User company
-exports.getMyMission = async (req, res, next) => {
+//get cour from User Prof
+exports.getMyCours = async (req, res, next) => {
   try {
-    //find missions
-    const myMission = await Mission.findById(req.params.id);
-    // return mission
+    //find cours
+    const myCours = await Cours.findById(req.params.id);
+    // return cour
     res.send({
       success: true,
-      missions: myMission
+      cours: myCours
     })
   }
   catch(err) {
@@ -84,16 +84,16 @@ exports.getMyMission = async (req, res, next) => {
   }
 }
 
-// update mission from User company
-exports.updateMyMission = async (req, res, next) => {
+// update cour from User Prof
+exports.updateMyCours = async (req, res, next) => {
   try {
-    //update mission
-    const missionToUpdate = await Mission.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    //return mission updated
+    //update cour
+    const coursToUpdate = await Cours.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    //return cour updated
     res.send ({
       success: true,
-      message:"Mission successfully updated",
-      mission: missionToUpdate
+      message:"Cours successfully updated",
+      cours: coursToUpdate
     });
   }
   catch (err) {
@@ -102,16 +102,16 @@ exports.updateMyMission = async (req, res, next) => {
 
 }
 
-//delete mission from User company
-exports.deleteMyMission = async (req, res, next) => {
+//delete Cours from User Prof
+exports.deleteMyCours = async (req, res, next) => {
   try {
-    //find and delete mission
-    const missionToRemove = await Mission.findByIdAndRemove(req.params.id, req.body);
-    // return mission removed
+    //find and delete Cours
+    const coursToRemove = await Cours.findByIdAndRemove(req.params.id, req.body);
+    // return Cours removed
     res.send ({
       success: true,
-      message: "Mission successfully removed",
-      mission: missionToRemove
+      message: "Cours successfully removed",
+      cour: courToRemove
     });
   }
   catch (err) {
@@ -119,14 +119,14 @@ exports.deleteMyMission = async (req, res, next) => {
   }
 }
 
-//get missions (admin)
-exports.getMissions = async (req, res, next) => {
+//get Courss (admin)
+exports.getCourss = async (req, res, next) => {
   try {
-    //find all mission and populate propositions
-    const missions = Mission.find().populate('propositions');
-    // return missions
+    //find all Cours and populate propositions
+    const cours = Cours.find().populate('propositions');
+    // return Courss
     res.send({
-      missions: missions,
+      cours: cours,
       success:true
     })
   }
@@ -135,14 +135,14 @@ exports.getMissions = async (req, res, next) => {
   }
 }
 
-//get mission (admin)
-exports.getMission = async (req, res, next) => {
-   //find one mission and populate propositions
+//get Cours (admin)
+exports.getCours = async (req, res, next) => {
+   //find one Cours and populate propositions
   try {
-    const missions = Mission.findbyId(req.params.id).populate('propositions');
-    //return mission
+    const cours = Cours.findbyId(req.params.id).populate('propositions');
+    //return Cours
     res.send({
-      missions: missions,
+      cours: cours,
       success:true
     })
   }

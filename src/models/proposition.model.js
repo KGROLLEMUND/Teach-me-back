@@ -6,11 +6,8 @@ const propositionSchema = mongoose.Schema({
     enum: ['PENDING', 'REFUSED', 'ACCEPTED'],
     required: true
   },
-  freelance: {
-    type: mongoose.Schema.Types.ObjectId, ref: 'Freelance',
-  },
-  mission: {
-    type: mongoose.Schema.Types.ObjectId, ref: 'Mission',
+  cours: {
+    type: mongoose.Schema.Types.ObjectId, ref: 'Cours',
   }
 },
   {

@@ -1,21 +1,21 @@
 const User = require("../models/user.model");
-const Company = require("../models/company.model");
-const Freelance = require("../models/freelance.model");
+const Prof = require("../models/prof.model");
+const Student = require("../models/student.model");
 const sendEmail = require('../utils/sendMail');
 const signJwt = require("../utils/signJwt");
 
 //get user logged (base on token)
 exports.getMe = async (req, res, next) => {
   try {
-    //find user and populate freelance && company
+    //find user and populate student && prof
     const me = await User.findById(req.userToken.body.id).populate([
       {
-        path: "freelance",
-        model: "Freelance",
+        path: "student",
+        model: "Student",
       },
       {
-        path: "company",
-        model: "Company"
+        path: "prof",
+        model: "prof"
       }
     ]);
     if (!me) {
@@ -55,26 +55,26 @@ exports.updateMe = async (req, res, next) => {
   }
 }
 
-//update logged user company (base on token)
-exports.updateMyCompany = async (req, res, next) => {
+//update logged user prof (base on token)
+exports.updateMyProf = async (req, res, next) => {
   try {
-    //find ID company of user
-    const me = await User.findById(req.userToken.body.id).populate('company');
-    //if user don't have a company
-    if (!me.company) {
-      const error = new Error("User don't have a company account")
+    //find ID Prof of user
+    const me = await User.findById(req.userToken.body.id).populate('prof');
+    //if user don't have a prof
+    if (!me.prof) {
+      const error = new Error("User don't have a prof account")
       error.status = 404
       throw error;
     }
     //find copany and update
-    const CompanyToModify = await Company.findByIdAndUpdate(me.company.id,
+    const ProfToModify = await Prof.findByIdAndUpdate(me.prof.id,
       req.body,
       { new: true, upsert: true });
     
       //return user
       return res.send({
         success: true,
-        company: CompanyToModify
+        prof: ProfToModify
       });
   }
   catch (err) {
@@ -82,32 +82,32 @@ exports.updateMyCompany = async (req, res, next) => {
   }
 }
 
-//update logged user freelance (base on token)
-exports.updateMyFreelance = async (req, res, next) => {
+//update logged user Student (base on token)
+exports.updateMyStudent = async (req, res, next) => {
   try {
-    //find ID freelance of user
+    //find ID Student of user
     const me = await User.findById(req.userToken.body.id);
-    //if user don't have a freelance account
-    if (!me.freelance) {
-      const error = new Error("User don't have a freelance account")
+    //if user don't have a Student account
+    if (!me.student) {
+      const error = new Error("User don't have a student account")
       error.status = 404
       throw error;
     }
-    //find freelance and update
-    const freelanceToUpdate = await Freelance.findById(me.freelance);
-    if (!freelanceToUpdate) {
-      const error = new Error("freelance not found")
+    //find student and update
+    const studentToUpdate = await Student.findById(me.student);
+    if (!studentToUpdate) {
+      const error = new Error("student not found")
       error.status = 404
       throw error;
     }
-    if(req.body.rate) freelanceToUpdate.rate = req.body.rate;
-    if (req.body.yearOfExperience) freelanceToUpdate.yearOfExperience = req.body.yearOfExperience;
-    if (req.body.skills) freelanceToUpdate.skills.push(req.body.skills);
-    await freelanceToUpdate.save();
+    if(req.body.rate) studentToUpdate.rate = req.body.rate;
+    if (req.body.yearOfExperience) studentToUpdate.yearOfExperience = req.body.yearOfExperience;
+    if (req.body.skills) studentToUpdate.skills.push(req.body.skills);
+    await studentToUpdate.save();
     //return user
     res.send({
       success: true,
-      freelance: freelanceToUpdate
+      student: studentToUpdate
     });
   }
   catch (err) {
