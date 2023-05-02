@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const freelanceController = require('../controllers/freelance.controller');
+const studentController = require('../controllers/student.controller');
 
-router.get("/:id", freelanceController.findFreelance);
-router.post("/", freelanceController.findFreelances);
-router.post("/search", freelanceController.findSearchString);
+router.get("/:id", studentController.findFreelance);
+router.post("/", studentController.findStudents);
+router.post("/search", studentController.findSearchString);
 
 module.exports = router;

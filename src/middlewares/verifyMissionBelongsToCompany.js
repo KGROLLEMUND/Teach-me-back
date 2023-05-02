@@ -1,14 +1,14 @@
 const User = require("../models/user.model");
-const Company = require("../models/company.model");
+const Prof = require("../models/prof.model");
 
-async function verifyMissionBelongsToCompany(req, res, next) {
+async function verifyMissionBelongsToProf(req, res, next) {
   try {
     const me = await User.findById(req.userToken.body.id);
-      const myCompany = await Company.findById(me.company).populate('missions');
-      if (!myCompany.missions.some((el) =>el._id.equals(req.params.id))) {
+      const myProf = await Prof.findById(me.prof).populate('cours');
+      if (!myProf.cours.some((el) =>el._id.equals(req.params.id))) {
         return res.status(404).send({
           success:false,
-          message: "this mission isn't belong to the company"
+          message: "ce profil ne correspond pas a ce prof"
         })
       }
       next();
@@ -20,4 +20,4 @@ async function verifyMissionBelongsToCompany(req, res, next) {
   }
 }
 
-module.exports = verifyMissionBelongsToCompany;
+module.exports = verifyMissionBelongsToProf;

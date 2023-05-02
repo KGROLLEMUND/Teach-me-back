@@ -3,7 +3,7 @@ const router = express.Router();
 const missionController = require('../controllers/mission.controller');
 const verifyToken = require('../middlewares/verifyToken');
 const verifyIsAdmin = require('../middlewares/verifyIsAdmin');
-const verifyIsCompany = require('../middlewares/verifyIsCompany');
+const verifyIsCompany = require('../middlewares/verifyIsProf');
 const verifyMissionBelongsToCompany = require('../middlewares/verifyMissionBelongsToCompany');
 
 router.get("/missions", verifyToken, verifyIsCompany, missionController.getMyMissions);
