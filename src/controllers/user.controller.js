@@ -100,9 +100,7 @@ exports.updateMyStudent = async (req, res, next) => {
       error.status = 404
       throw error;
     }
-    if(req.body.rate) studentToUpdate.rate = req.body.rate;
-    if (req.body.yearOfExperience) studentToUpdate.yearOfExperience = req.body.yearOfExperience;
-    if (req.body.skills) studentToUpdate.skills.push(req.body.skills);
+    if(req.body.niveauEtude) studentToUpdate.niveauEtude = req.body.niveauEtude;
     await studentToUpdate.save();
     //return user
     res.send({

@@ -15,11 +15,6 @@ exports.register = async (req, res, next) => {
     email: req.body.email,
     phone: req.body.phone,
     userType: req.body.userType,
-    address: {
-      city: req.body.address.city,
-      zipCode: req.body.address.zipCode,
-      street: req.body.address.street
-    }
   });
 
   try {
@@ -106,8 +101,7 @@ exports.registerStudent = async (req, res, next) => {
     const me = await User.findById(req.userToken.body.id);
     // create a new Student instance
     const newStudent = new Student({
-      rate: req.body.rate,
-      yearOfExperience: req.body.yearOfExperience,
+      niveauEtude: req.body.niveauEtude,
       user: req.userToken.body.id
     });
     //if user already have a Student acccount
@@ -141,14 +135,8 @@ exports.registerProf = async (req, res, next) => {
   
   // create a new Prof instance
   const newProf = new Prof({
-    name: req.body.name,
-    status: req.body.status,
-    siret: req.body.siret,
-    address: {
-      city: req.body.address.city,
-      zipCode: req.body.address.zipCode,
-      street: req.body.address.street
-    },
+    niveauEnseignement: req.body.niveauEnseignement,
+    matiere: req.body.matiere,
     user: me._id
   })
 

@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const missionController = require('../controllers/mission.controller');
+const coursController = require('../controllers/cours.controller');
 const verifyToken = require('../middlewares/verifyToken');
 const verifyIsAdmin = require('../middlewares/verifyIsAdmin');
-const verifyIsCompany = require('../middlewares/verifyIsProf');
-const verifyMissionBelongsToCompany = require('../middlewares/verifyMissionBelongsToCompany');
+const verifyIsProf = require('../middlewares/verifyIsProf');
+const verifyCoursBelongsToProf = require('../middlewares/verifyCoursBelongsToProf');
 
-router.get("/missions", verifyToken, verifyIsCompany, missionController.getMyMissions);
-router.get("/:id", verifyToken, verifyIsCompany, verifyMissionBelongsToCompany, missionController.getMyMission);
-router.get("/admin/mission", verifyToken, verifyIsAdmin, missionController.getMissions);
-router.get("/admin/mission/:id", verifyToken, verifyIsAdmin, missionController.getMission);
-router.post("/", verifyToken, verifyIsCompany, missionController.createMission);
-router.put('/:id', verifyToken, verifyIsCompany, verifyMissionBelongsToCompany, missionController.updateMyMission);
-router.delete('/:id', verifyToken, verifyIsCompany, verifyMissionBelongsToCompany, missionController.deleteMyMission);
+router.get("/cours", verifyToken, verifyIsProf, coursController.getMyCours);
+router.get("/:id", verifyToken, verifyIsProf, verifyCoursBelongsToProf, coursController.getMyCours);
+router.get("/admin/cours", verifyToken, verifyIsAdmin, coursController.getCours);
+router.get("/admin/cours/:id", verifyToken, verifyIsAdmin, coursController.getCours);
+router.post("/", verifyToken, verifyIsProf, coursController.createCours);
+router.put('/:id', verifyToken, verifyIsProf, verifyCoursBelongsToProf, coursController.updateMyCours);
+router.delete('/:id', verifyToken, verifyIsProf, verifyCoursBelongsToProf, coursController.deleteMyCours);
 
 module.exports = router;

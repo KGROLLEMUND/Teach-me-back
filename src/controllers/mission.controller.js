@@ -11,14 +11,11 @@ exports.createCours = async (req, res, next) => {
     const myProf = await Prof.findById(me.prof);
     //new Cours
     const newCours = new Cours({
-      dateStart: req.body.dateStart,
-      dateEnd: req.body.dateEnd,
-      amount: req.body.amount,
       title: req.body.title,
       description: req.body.description,
-      status: "IN_PROGRESS",
+      matiere: req.body.matiere,
+      status: "DISPONIBLE",
       prof: myProf._id,
-      skills: req.body.skills
     });
     // save Cours in DB
     const coursToCreate = await newCours.save();
@@ -42,7 +39,7 @@ exports.createCours = async (req, res, next) => {
 
 }
 
-//get courss from User Prof
+//get cours from User Prof
 exports.getMyCours = async (req, res, next) => {
   try {
     //find user
@@ -120,7 +117,7 @@ exports.deleteMyCours = async (req, res, next) => {
 }
 
 //get Courss (admin)
-exports.getCourss = async (req, res, next) => {
+exports.getCours = async (req, res, next) => {
   try {
     //find all Cours and populate propositions
     const cours = Cours.find().populate('propositions');

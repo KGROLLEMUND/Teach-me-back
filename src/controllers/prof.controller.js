@@ -28,14 +28,12 @@ exports.findProfs = async (req, res, next) => {
     if (req.body.filters) {
       //apply filters
       const filteredProf = profs.filter((prof) => {
-        return req.body.filters.rate
-          ? prof.rate >= req.body.filters.rate.range[0]
-          && prof.rate <= req.body.filters.rate.range[1] : false
+        return req.body.filters.matiere
+          ? prof.matiere >= req.body.filters.matiere.range[0]
+          && prof.matiere <= req.body.filters.matiere.range[1] : false
           || req.body.filters.exp
-          ? prof.yearOfExperience >= req.body.filters.exp.range[0]
-          && prof.yearOfExperience <= req.body.filters.exp.range[1] : false
-          || req.body.filters.skills
-          ? prof.skills.some((el) => req.body.filters.skills.includes(String(el))) : false
+          ? prof.niveauEnseignement >= req.body.filters.exp.range[0]
+          && prof.niveauEnseignement <= req.body.filters.exp.range[1] : false
       });
       //return filtered profs
       return res.send({
