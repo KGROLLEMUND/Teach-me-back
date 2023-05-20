@@ -28,7 +28,7 @@ exports.createProposition = async (req, res, next) => {
     //save it
     await selectedStudent.save();
     //send email to Student
-    sendEmail(selectedStudent.user.email, 'Proposition de cours', "Une entreprise vous a proposé une cours", "Vous pouvez accepter ou refuser la cours en cliquant sur ce lien")
+    sendEmail(selectedStudent.user.email, 'Proposition de cours', "Un(e) entreprise vous demande un cours", "Vous pouvez accepter ou refuser le cours en cliquant sur ce lien")
     //return new proposition
     res.send({
       success: true,
@@ -81,7 +81,7 @@ exports.updatePropositionFromStudent = async (req, res, next) => {
         // update  proposition status
         await Proposition.findByIdAndUpdate(req.params.id, { status: 'REFUSED' }, { new: true });
         //send email to admin
-        sendEmail(me.email, "Refus de proposition de cours", "Un student a refusé la cours", `le student ${me.id} a refusé la cours`);
+        sendEmail(me.email, "Refus de la demande de cours", "Le prof a refusé le cours", `le prof ${me.id} a refusé le cours`);
         // return success message
         return res.send({
           success: true,
@@ -92,7 +92,7 @@ exports.updatePropositionFromStudent = async (req, res, next) => {
         //update proposition status
         await Proposition.findByIdAndUpdate(req.params.id, { status: 'ACCEPTED' }, { new: true });
         //send email to admin
-        sendEmail(me.email, "Validation de cours", "Un student a validé la cours", `le student ${me.id} a validé la cours`);
+        sendEmail(me.email, "Validation de cours", "Le prof a validé la cours", `le prof ${me.id} a validé la cours`);
         //return success message
         return res.send({
           success: true,
@@ -109,5 +109,4 @@ exports.updatePropositionFromStudent = async (req, res, next) => {
   catch (err) {
     next(err);
   }
-
 }
