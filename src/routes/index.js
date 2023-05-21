@@ -4,7 +4,7 @@ const authRouter = require("./auth.route");
 const userRouter = require('./user.route');
 const coursRouter = require('./cours.route');
 const propositionRouter = require('./proposition.route');
-const studentRouter = require('./student.route');
+const studentRouter = require('./prof.route');
 
 router.use("/auth", authRouter);
 router.use("/user", userRouter);
