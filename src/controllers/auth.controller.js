@@ -27,20 +27,6 @@ exports.register = async (req, res, next) => {
       userType: newUserToSave.userType,
     })
     if (userToken) {
-      //send email to new user
-      await sendMail(
-        newUser.email,
-        "Confirmation d'inscription",
-        `Hello ${newUser.firstName}`,
-        "Votre inscription est confirmée."
-      );
-      //send email to Admin 
-      await sendMail(
-        process.env.ADMIN_EMAIL,
-        "[Admin] - Confirmation d'inscription",
-        `Hello Admin`,
-        `Nouvelle inscription : ${newUser.email}`
-      );
       //return User
       return res.send({
         success: true,
