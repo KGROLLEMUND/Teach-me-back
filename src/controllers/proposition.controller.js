@@ -2,7 +2,6 @@ const Proposition = require("../models/proposition.model");
 const Student = require("../models/student.model");
 const Cours = require("../models/cours.model");
 const User = require("../models/user.model");
-const sendEmail = require("../utils/sendMail");
 
 //propose a Cours to a Student
 exports.createProposition = async (req, res, next) => {

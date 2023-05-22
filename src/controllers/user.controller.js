@@ -1,7 +1,6 @@
 const User = require("../models/user.model");
 const Prof = require("../models/prof.model");
 const Student = require("../models/student.model");
-const sendEmail = require('../utils/sendMail');
 const signJwt = require("../utils/signJwt");
 
 //get user logged (base on token)

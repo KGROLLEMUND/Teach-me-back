@@ -2,7 +2,6 @@ const User = require("../models/user.model");
 const Prof = require("../models/prof.model");
 const Student = require("../models/student.model");
 const bcrypt = require("bcrypt");
-const sendMail = require('../utils/sendMail');
 const signJwt = require('../utils/signJwt');
 
 //register a user
