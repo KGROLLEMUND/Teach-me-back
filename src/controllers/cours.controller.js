@@ -44,7 +44,7 @@ exports.createCours = async (req, res, next) => {
 exports.getMyCours = async (req, res, next) => {
   try {
     //find user
-    const me = await User.findById(req.userToken.body.id).populate('prof');
+    const me = await User.findById(req.userToken.body.id);
     //find user Prof and populate cours
     const myProf = await Prof.findById(me.prof).populate({
       path: "cours",
@@ -54,27 +54,27 @@ exports.getMyCours = async (req, res, next) => {
         model:"Proposition"
       }
     });
-    console.log(myProf);
     //return courss
     res.send({
       success: true,
-      cours: myProf.cours
+      lessons: myProf.cours
     })
   }
   catch(err) {
+    console.log(err);
     next(err);
   }
 }
 
 //get cour from User Prof
-exports.getMyCours = async (req, res, next) => {
+exports.getMyCour = async (req, res, next) => {
   try {
     //find cours
     const myCours = await Cours.findById(req.params.id);
     // return cour
     res.send({
       success: true,
-      cours: myCours
+      lesson: myCours
     })
   }
   catch(err) {
@@ -109,7 +109,7 @@ exports.deleteMyCours = async (req, res, next) => {
     res.send ({
       success: true,
       message: "Cours successfully removed",
-      cour: courToRemove
+      lesson: coursToRemove
     });
   }
   catch (err) {

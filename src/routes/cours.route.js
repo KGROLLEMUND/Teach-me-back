@@ -7,7 +7,7 @@ const verifyIsProf = require('../middlewares/verifyIsProf');
 const verifyCoursBelongsToProf = require('../middlewares/verifyCoursBelongsToProf');
 
 router.get("/cours", verifyToken, verifyIsProf, coursController.getMyCours);
-router.get("/:id", verifyToken, verifyIsProf, verifyCoursBelongsToProf, coursController.getMyCours);
+router.get("/:id", verifyToken, verifyIsProf, verifyCoursBelongsToProf, coursController.getMyCour);
 router.get("/admin/cours", verifyToken, verifyIsAdmin, coursController.getCours);
 router.get("/admin/cours/:id", verifyToken, verifyIsAdmin, coursController.getCours);
 router.post("/", verifyToken, verifyIsProf, coursController.createCours);

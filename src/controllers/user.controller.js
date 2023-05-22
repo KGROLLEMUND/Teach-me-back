@@ -14,7 +14,7 @@ exports.getMe = async (req, res, next) => {
       },
       {
         path: "prof",
-        model: "prof"
+        model: "Prof"
       }
     ]);
     if (!me) {
