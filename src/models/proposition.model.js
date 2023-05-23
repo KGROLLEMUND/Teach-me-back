@@ -6,9 +6,12 @@ const propositionSchema = mongoose.Schema({
     enum: ['PENDING', 'REFUSED', 'ACCEPTED'],
     required: true
   },
+  student: {
+    type: mongoose.Schema.Types.ObjectId, ref: 'Student',
+  },
   cours: {
     type: mongoose.Schema.Types.ObjectId, ref: 'Cours',
-  }
+  },
 },
   {
     timestamps: true
