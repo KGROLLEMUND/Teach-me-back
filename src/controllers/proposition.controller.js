@@ -26,8 +26,8 @@ exports.createProposition = async (req, res, next) => {
     //find user student email and send email to student
     const selectUser = await User.findById(req.userToken.body.id);
     const selectedStudent = await Student.findById(selectUser.student);
-
-    selectedStudent.cours.push(coursToSave._id);
+    selectedStudent.propositions.push(newPropositionToSave._id);
+    
     //save it
     await selectedStudent.save();
     //return new proposition
@@ -50,6 +50,10 @@ exports.getMyPropositions = async (req, res, next) => {
       populate: {
         path: "propositions",
         model: "Proposition",
+        populate: {
+          path: "cours",
+          model: "Cours",
+        },
       },
     });
     // return Student's propositions
@@ -67,8 +71,6 @@ exports.updatePropositionFromStudent = async (req, res, next) => {
   try {
     //find the status in req.body
     const status = req.body.status;
-    // find connected user
-    const me = await User.findById(req.userToken.body.id);
     //Accet or decline process
     switch (status) {
       //Student refused the proposition
@@ -78,13 +80,6 @@ exports.updatePropositionFromStudent = async (req, res, next) => {
           req.params.id,
           { status: "REFUSED" },
           { new: true }
-        );
-        //send email to admin
-        sendEmail(
-          me.email,
-          "Refus de la demande de cours",
-          "Le prof a refusé le cours",
-          `le prof ${me.id} a refusé le cours`
         );
         // return success message
         return res.send({
@@ -98,13 +93,6 @@ exports.updatePropositionFromStudent = async (req, res, next) => {
           req.params.id,
           { status: "ACCEPTED" },
           { new: true }
-        );
-        //send email to admin
-        sendEmail(
-          me.email,
-          "Validation de cours",
-          "Le prof a validé la cours",
-          `le prof ${me.id} a validé la cours`
         );
         //return success message
         return res.send({

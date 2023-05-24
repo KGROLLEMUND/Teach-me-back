@@ -17,10 +17,10 @@ router.post(
   verifyIsStudent,
   propositionController.createProposition
 );
-router.post(
-  "/update-student/:id",
+router.put(
+  "/update/:id",
   verifyToken,
-  verifyIsStudent,
+  verifyIsProf,
   propositionController.updatePropositionFromStudent
 );
 module.exports = router;

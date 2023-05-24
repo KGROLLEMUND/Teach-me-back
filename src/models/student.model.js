@@ -12,10 +12,10 @@ const studentSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
-    cours: [
+    propositions: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Cours",
+        ref: "Proposition",
         required: true,
       },
     ],
