@@ -8,7 +8,9 @@ exports.createProposition = async (req, res, next) => {
   //new proposition
   const newProposition = new Proposition({
     status: "PENDING",
+    student: req.userToken.body.id,
     cours: req.params.id,
+    datetime: req.body.datetime,
   });
 
   try {
@@ -24,8 +26,6 @@ exports.createProposition = async (req, res, next) => {
     //find user student email and send email to student
     const selectUser = await User.findById(req.userToken.body.id);
     const selectedStudent = await Student.findById(selectUser.student);
-
-    console.log(selectedStudent);
 
     selectedStudent.cours.push(coursToSave._id);
     //save it

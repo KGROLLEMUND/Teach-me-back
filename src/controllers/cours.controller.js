@@ -72,16 +72,22 @@ exports.getMyCours = async (req, res, next) => {
       lessons: myProf.cours,
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
 
 //get cour from User Prof
-exports.getMyCour = async (req, res, next) => {
+exports.getMyOneCours = async (req, res, next) => {
   try {
     //find cours
-    const myCours = await Cours.findById(req.params.id);
+    const myCours = await Cours.findById(req.params.id).populate({
+      path: "propositions",
+      model: "Proposition",
+      populate: {
+        path: "student",
+        model: "User",
+      },
+    });
     // return cour
     res.send({
       success: true,
