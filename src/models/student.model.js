@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const studentSchema = mongoose.Schema(
   {
     niveauEtude: {
-      type: Number,
+      type: String,
       required: true,
       min: 1,
     },
